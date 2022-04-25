@@ -1,0 +1,25 @@
+{
+  "name": "vinejs-git-deployer",
+  "version": "1.0.0",
+  "description": "vine.js git deployer",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rollup index.js --file dist/bundle.js --format cjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ShawnZhou2000/vinejs-git-deployer.git"
+  },
+  "author": "shawn zhou",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ShawnZhou2000/vinejs-git-deployer/issues"
+  },
+  "homepage": "https://github.com/ShawnZhou2000/vinejs-git-deployer#readme",
+  "dependencies": {
+    "js-yaml": "^4.1.0",
+    "node-cmd": "^5.0.0",
+    "rollup": "^2.70.2"
+  }
+}
