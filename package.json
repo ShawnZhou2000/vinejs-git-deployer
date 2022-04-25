@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rollup index.js --file dist/bundle.js --format cjs"
+    "build": "rollup -c rollup.config.js"
   },
   "repository": {
     "type": "git",
@@ -18,8 +18,15 @@
   },
   "homepage": "https://github.com/ShawnZhou2000/vinejs-git-deployer#readme",
   "dependencies": {
+    "chalk": "~4.1.2",
     "js-yaml": "^4.1.0",
-    "node-cmd": "^5.0.0",
-    "rollup": "^2.70.2"
+    "node-cmd": "^5.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.10.2",
+    "@babel/preset-env": "^7.10.2",
+    "rollup": "^2.70.2",
+    "rollup-plugin-babel": "^4.4.0",
+    "rollup-plugin-uglify": "^6.0.4"
   }
 }

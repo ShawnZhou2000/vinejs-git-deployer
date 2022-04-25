@@ -1,5 +1,8 @@
 type: git
 repo: https://github.com/ShawnZhou2000/vinejs-git-test.git
 branch: main
+auth:
+  user_name: ShawnZhou2000
+  user_email: shawnzhou101@163.com
 # if you want to push codes
 extend_dir: 
