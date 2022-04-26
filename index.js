@@ -5,6 +5,7 @@ const _cmd = require('node-cmd');
 const _yaml = require('js-yaml');
 const log = require('./utils/colorLog.js');
 const path = require('path');
+const dayjs = require('dayjs');
 let ymlConfig = {};
 const commonPath = 'dist';
 
@@ -76,6 +77,7 @@ function publish() {
     return res;
   })
   .catch(err => {
+    // yaml file error
     log.error('Oops, something wrong in deployer.');
     log.error(err);
     log.error(`vine.deployer.yml not found in deployer path, please check your config.`);
@@ -92,12 +94,6 @@ function publish() {
       process.exit(1);
     }
     return exists(path.resolve(commonPath, '.git'));
-  })
-  .catch(err => {
-    log.error('Oops, something wrong in deployer.');
-    log.error(err);
-    log.error(`please check your config.`);
-    process.exit(1);
   })
   .then(res => {
     log.info('Setting up Git deployment...');
@@ -116,11 +112,11 @@ function publish() {
     return cmd(`git config user.email ${ymlConfig.auth.user_email}`);
   })
   .then(() => {
-    return cmd(`git add .`);
+    return cmd(`git add -A`);
   })
   .then(() => {
     // TODO: 后面加上更新时间
-    return cmd(`git commit -m update`);
+    return cmd(`git commit -m "update at ${dayjs().format('YYYY-MM-DD HH:mm:ss')}"`);
   })
   .then(() => {
     return cmd(`git push -u ${ymlConfig.repo} HEAD:${ymlConfig.branch} --force`);
@@ -132,7 +128,6 @@ function publish() {
   .catch(err => {
     console.log(err);
     log.error('Oops, something wrong in deployer.');
-    // log.error(`Vine.js can't find 'vine.deployer.yml', please check your config.`);
     process.exit(1);
   })
 }

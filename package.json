@@ -19,6 +19,7 @@
   "homepage": "https://github.com/ShawnZhou2000/vinejs-git-deployer#readme",
   "dependencies": {
     "chalk": "~4.1.2",
+    "dayjs": "^1.11.1",
     "js-yaml": "^4.1.0",
     "node-cmd": "^5.0.0"
   },

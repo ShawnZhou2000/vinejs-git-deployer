@@ -4,5 +4,3 @@ branch: main
 auth:
   user_name: ShawnZhou2000
   user_email: shawnzhou101@163.com
-# if you want to push codes
-extend_dir: 
