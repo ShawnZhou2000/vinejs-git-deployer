@@ -5,7 +5,7 @@ export default {
   input: 'index.js', // 入口文件
   output: {
     format: 'cjs',
-    file: 'dist/bundle.js', // 打包后输出文件
+    file: 'bin/index.js', // 打包后输出文件
   },
   plugins: [
     babel({

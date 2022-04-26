@@ -115,7 +115,6 @@ function publish() {
     return cmd(`git add -A`);
   })
   .then(() => {
-    // TODO: 后面加上更新时间
     return cmd(`git commit -m "update at ${dayjs().format('YYYY-MM-DD HH:mm:ss')}"`);
   })
   .then(() => {
@@ -132,6 +131,6 @@ function publish() {
   })
 }
 
-publish();
+// publish();
 
 module.exports = publish;
