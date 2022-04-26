@@ -123,6 +123,7 @@ function publish() {
   .then(res => {
     log.info(res);
     log.info(`dist published successfully.`);
+    return res;
   })
   .catch(err => {
     console.log(err);
