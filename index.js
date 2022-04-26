@@ -54,7 +54,7 @@ const clearDir = (path) => {
 3. 将内容强推到分支上去
 */
 function publish() {
-  getYaml('./vine.deployer.yml')
+  return getYaml('./vine.deployer.yml')
   .then(res => {
     if (res.type !== 'git') {
       log.error(`Deployer type invalid, please check your config.`);
