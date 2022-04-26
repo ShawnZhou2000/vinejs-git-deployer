@@ -2,12 +2,25 @@ const fs = require('fs');
 const util = require('util');
 const exists = util.promisify(fs.exists);
 const _cmd = require('node-cmd');
-const cmd = util.promisify(_cmd.run);
 const _yaml = require('js-yaml');
 const log = require('./utils/colorLog.js');
 const path = require('path');
+let ymlConfig = {};
+const commonPath = 'dist';
 
-const getYaml = function(dir) {
+const cmd = (commandStr) => {
+  return new Promise((resolve, reject) => {
+    _cmd.run(`cd ${commonPath} && ${commandStr}`, (err, data, stderr) => {
+      if (err) {
+        reject(stderr);
+      } else {
+        resolve(data);
+      }
+    })
+  });
+}
+
+const getYaml = (dir) => {
   return new Promise((resolve, reject) => {
     let yamlData = {};
     try {
@@ -20,8 +33,18 @@ const getYaml = function(dir) {
   });
 }
 
-let ymlConfig = {};
-const commonPath = '../dist';
+const clearDir = (path) => {
+  let fileURL = null;
+  fs.readdirSync(path).forEach(data => {
+    fileURL = `${path}/${data}`;
+    if (fs.statSync(fileURL).isDirectory()) {
+      clearDir(fileURL);
+    } else {
+      fs.unlinkSync(fileURL);
+    }
+  });
+  fs.rmdirSync(path);
+}
 
 /*
 0. 校验vine.deployer.yml是否合法，如合法则解析
@@ -55,10 +78,10 @@ function publish() {
   .catch(err => {
     log.error('Oops, something wrong in deployer.');
     log.error(err);
-    log.error(`Vine.js can't find 'vine.deployer.yml', please check your config.`);
+    log.error(`vine.deployer.yml not found in deployer path, please check your config.`);
     process.exit(1);
   })
-  .then(res => {
+  .then(() => {
     return exists(path.resolve( commonPath));
   })
   .then(res => {
@@ -73,19 +96,20 @@ function publish() {
   .catch(err => {
     log.error('Oops, something wrong in deployer.');
     log.error(err);
-    log.error(`Vine.js can't find 'vine.deployer.yml', please check your config.`);
+    log.error(`please check your config.`);
     process.exit(1);
   })
   .then(res => {
-    // if '.git' already exist
     log.info('Setting up Git deployment...');
+    // if '.git' already exist
     if (res) {
-      fs.rmdirSync(path.resolve(commonPath, '.git'));
-      log.info('Rebuild .git directory...');
+      log.info('Rebuilding .git directory...');
+      clearDir(path.resolve(commonPath, '.git'));
     }
     return cmd('git init');
   })
-  .then(() => {
+  .then((res) => {
+    log.info(res);
     return cmd(`git config user.name ${ymlConfig.auth.user_name}`);
   })
   .then(() => {
@@ -96,13 +120,14 @@ function publish() {
   })
   .then(() => {
     // TODO: 后面加上更新时间
-    return cmd(`git commit -m 'site updated'`);
+    return cmd(`git commit -m update`);
   })
   .then(() => {
     return cmd(`git push -u ${ymlConfig.repo} HEAD:${ymlConfig.branch} --force`);
   })
   .then(res => {
-    console.log(res);
+    log.info(res);
+    log.info(`dist published successfully.`);
   })
   .catch(err => {
     console.log(err);
