@@ -1,6 +1,7 @@
+# You need to complete this settings first before using this deployer.
 type: git
-repo: https://github.com/ShawnZhou2000/vinejs-git-test.git
+repo: # <your git repo url>
 branch: main
 auth:
-  user_name: ShawnZhou2000
-  user_email: shawnzhou101@163.com
+  user_name: # <your git user name>
+  user_email: # <your git user email>

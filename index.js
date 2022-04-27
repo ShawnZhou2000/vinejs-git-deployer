@@ -54,7 +54,7 @@ const clearDir = (path) => {
 3. 将内容强推到分支上去
 */
 function publish() {
-  return getYaml('./vine.deployer.yml')
+  return getYaml(path.resolve(process.cwd(), 'deployer/vine.deployer.yml'))
   .then(res => {
     if (res.type !== 'git') {
       log.error(`Deployer type invalid, please check your config.`);
@@ -68,8 +68,7 @@ function publish() {
         branch: main
         auth:
           user_name: <your git user name>
-          user_email: <your git user email></your>
-        extend_dir: [extend directory]
+          user_email: <your git user email>
       `)
       process.exit(1);
     }
@@ -131,7 +130,5 @@ function publish() {
     process.exit(1);
   })
 }
-
-// publish();
 
 module.exports = publish;
